@@ -42,20 +42,26 @@ public class Main {
 
 	public static void main(String[] args) {
 		OAuth2Credentials.errorIfNotSpecified();
-		OAuth2Credentials credentials = OAuth2Credentials.Read();
 		String token = null;
-		
+
+		OAuth2Credentials credentials = OAuth2Credentials.Read();
 		if (credentials != null) {
 			// see if we can use them to talk to server
-			credentials = new OAuth2Credentials();
-			Authentification.getBearerToken(credentials);
-			
+			System.out.println("retrieved credentials " + credentials.getClientToken());
+			token = Authentification.getBearerToken(credentials);
+			System.out.println("bearer token.1 " + token);
 		}
 		if (credentials == null || token == null){
-			token = Authentification.getOAuth2Credentials();
+			String code = Authentification.getOAuth2Credentials();
+			System.out.println("code" + code);
 			credentials = new OAuth2Credentials();
-			credentials.setClientToken(token);
+			credentials.setClientToken(code);
 			credentials.Store();
+			token = Authentification.getBearerToken(credentials);
+			System.out.println("bearer token.2 " + token);
 		}
+		
+		long athleteId = StravaAPI.getCurrentAtheleteID(token);
+		System.out.println("athleteId " + athleteId);
 	}
 }

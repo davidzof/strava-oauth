@@ -86,7 +86,7 @@ public class Authentification {
 			// Wait for client to authenticate and get returned code
 			code = handler.getCode();
 			server.stop(0);
-			System.out.println("server stopped");
+			System.out.println("Server stopped");
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -105,7 +105,7 @@ public class Authentification {
 		params.add(new BasicNameValuePair("client_secret",
 				OAuth2Credentials.clientSecret));
 		params.add(new BasicNameValuePair("code", credentials.getClientToken()));
-		JSONObject obj = httpRequest(OAuth2Credentials.tokenServer, params);
+		JSONObject obj = httpPostRequest(OAuth2Credentials.tokenServer, params);
 
 		return (String) obj.get("access_token");
 	}
@@ -118,7 +118,7 @@ public class Authentification {
 	 * @param params
 	 * @return
 	 */
-	public static JSONObject httpRequest(String endPoint,
+	public static JSONObject httpPostRequest(String endPoint,
 			List<NameValuePair> params) {
 		JSONObject jsonObj = null;
 		try {
