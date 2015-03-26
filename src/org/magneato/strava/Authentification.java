@@ -79,9 +79,7 @@ public class Authentification {
 					+ OAuth2Credentials.port + "&scope=write"
 					+ "&state=mystate" + "&approval_prompt=force";
 
-			// note this only works for Moz on Unix/Linux
-			Runtime runtime = Runtime.getRuntime();
-			runtime.exec("/usr/bin/firefox -new-window " + url);
+			launchBrowser(url);
 
 			// Wait for client to authenticate and get returned code
 			code = handler.getCode();
@@ -97,6 +95,53 @@ public class Authentification {
 
 	}
 
+	/**
+	 * Tries to start a web browser to complete authorization
+	 * 
+	 * @param url
+	 * @throws IOException
+	 */
+	public static void launchBrowser(String url) throws IOException {
+
+		Runtime rt = Runtime.getRuntime();
+		String os = System.getProperty("os.name").toLowerCase();
+
+		try {
+
+			if (os.indexOf("win") >= 0) {
+
+				// this doesn't support showing urls in the form of
+				// "page.html#nameLink"
+				rt.exec("rundll32 url.dll,FileProtocolHandler " + url);
+
+			} else if (os.indexOf("mac") >= 0) {
+
+				rt.exec("open " + url);
+
+			} else if (os.indexOf("nix") >= 0 || os.indexOf("nux") >= 0) {
+
+				// Do a best guess on unix until we get a platform independent
+				// way
+				// Build a list of browsers to try, in this order.
+				String[] browsers = { "firefox", "opera", "google-chrome" };
+
+				// Build a command string which looks like
+				// "browser1 "url" || browser2 "url" ||..."
+				StringBuffer cmd = new StringBuffer();
+				for (int i = 0; i < browsers.length; i++)
+					cmd.append((i == 0 ? "" : " || ") + browsers[i] + " \""
+							+ url + "\" ");
+
+				rt.exec(new String[] { "sh", "-c", cmd.toString() });
+
+			} else {
+				return;
+			}
+		} catch (Exception e) {
+			return;
+		}
+	}
+
 	public static String getBearerToken(OAuth2Credentials credentials) {
 		// Request parameters and other properties.
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -105,7 +150,7 @@ public class Authentification {
 		params.add(new BasicNameValuePair("client_secret",
 				OAuth2Credentials.clientSecret));
 		params.add(new BasicNameValuePair("code", credentials.getClientToken()));
-		JSONObject obj = httpPostRequest(OAuth2Credentials.tokenServer, params);
+		JSONObject obj = httpPostRequest(OAuth2Credentials.tokenServer, params, null);
 
 		return (String) obj.get("access_token");
 	}
@@ -119,7 +164,7 @@ public class Authentification {
 	 * @return
 	 */
 	public static JSONObject httpPostRequest(String endPoint,
-			List<NameValuePair> params) {
+			List<NameValuePair> params, String bearer) {
 		JSONObject jsonObj = null;
 		try {
 			HttpClient httpClient = new DefaultHttpClient();
@@ -127,6 +172,11 @@ public class Authentification {
 
 			httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 
+			if (bearer != null) {
+				// add request header
+				httpPost.addHeader("Authorization", "Bearer " + bearer);
+			}
+			
 			HttpResponse response;
 			response = httpClient.execute(httpPost);
 			HttpEntity respEntity = response.getEntity();

@@ -25,8 +25,8 @@ import java.util.logging.Logger;
  */
 public class OAuth2Credentials implements Serializable {
 	// CHANGE THESE TO YOUR VALUES
-	public static final String clientId = "Your Value";
-	public static final String clientSecret = "Your Value";
+	public static final String clientId = "Your Client Id";
+	public static final String clientSecret = "Your Client Secret";
 	public static final String authServer = "https://www.strava.com/oauth/authorize";
 	public static final String tokenServer = "https://www.strava.com/oauth/token";
 
@@ -78,6 +78,10 @@ public class OAuth2Credentials implements Serializable {
 		}
 	}
 
+	/**
+	 * Check file exists java.io.FileNotFoundException: /home/david/.oauthstore-strava (No such file or directory)
+	 * @return
+	 */
 	public static OAuth2Credentials Read() {
 		OAuth2Credentials credentials = null;
 

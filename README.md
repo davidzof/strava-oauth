@@ -1,7 +1,7 @@
-Strava Oauth2 Proof of Concept
+Strava OAuth2 Proof of Concept
 ==============================
 
-Demo application showing how to OAuth2 authenticate with Strava from a Java
+Proof of concept showing how to OAuth2 authenticate with Strava from a Java
 Application. OAuth2 allows applications to authenticate with services without
 revealing the user's username and password to the application (well that's
 the theory, anyway). The principal use case is to allow one web service to

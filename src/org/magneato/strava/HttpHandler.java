@@ -35,7 +35,7 @@ class OAuthHandler implements HttpHandler {
 			OutputStream responseBody = exchange.getResponseBody();
 			responseBody.write(("Strava Code is " + code).getBytes());
 			responseBody
-					.write("<br/>You can now close your browser".getBytes());
+					.write("\n\nYou can now close your browser".getBytes());
 			responseBody.close();
 		}
 		fLatch.countDown();
