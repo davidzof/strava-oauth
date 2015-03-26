@@ -13,10 +13,10 @@ import com.sun.net.httpserver.HttpHandler;
  * Small webservice to handle callbacks from OAuth2 application. It recovers the
  * authorization code and then signals this to waiting threads.
  * 
- * @author david
+ * @author David George
  * @date 25th March 2015
  */
-class MyHandler implements HttpHandler {
+class OAuthHandler implements HttpHandler {
 	private String code = null;
 	CountDownLatch fLatch = new CountDownLatch(1);
 

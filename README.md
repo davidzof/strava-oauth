@@ -23,5 +23,7 @@ This falls down a bit for authorizing applications because you need to be able t
 * Start a server to listen for authorization callbacks.
 * The client secret is encoded in the application. So it can be seen by "hackers" who can use it for their application.
 
-Dependencies:
+Library Dependencies:
 com.googlecode.json-simple
+org.junit
+apache.httpclient
