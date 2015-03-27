@@ -40,7 +40,8 @@ public class Main {
 
 		long athleteId = StravaAPI.getCurrentAtheleteID(token);
 		System.out.println("athleteId " + athleteId);
-		StravaAPI.uploadActivity(token);
+		StravaAPI.uploadActivity(token, "/home/david/Dropbox/2015_03_27__14_51.fit");
+		//StravaAPI.getActivity(token, 310106815);
 
 	}
 }
