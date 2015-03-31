@@ -24,10 +24,12 @@ This falls down a bit for authorizing applications because you need to be able t
 * The client secret is encoded in the application. So it can be seen by "hackers" who can use it for their application.
 
 Library Dependencies:
-com.googlecode.json-simple - JSON processing
-org.junit - Unit Tests
-apache.httpclient - HTTP Communication with Strava
-apache.httpcore
-hamcrest-core
-httpmime - File uploads
-apache-mime-4j - File Uploads
+Here is a list of jar dependencies
+
+* com.googlecode.json-simple - JSON processing
+* org.junit - Unit Tests
+* apache.httpclient - HTTP Communication with Strava
+* apache.httpcore
+* hamcrest-core
+* httpmime - File uploads
+* apache-mime-4j - File Uploads
